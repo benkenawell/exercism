@@ -1,0 +1,3 @@
+[submodule "hamming"]
+	path = hamming
+	url = ./rust/hamming
