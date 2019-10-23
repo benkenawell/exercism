@@ -7,16 +7,7 @@ defmodule Strain do
   """
   @spec keep(list :: list(any), fun :: (any -> boolean)) :: list(any)
   def keep(list, fun) do
-    keeploop([], list, fun)
-  end
-
-  defp keeploop(acc, list, fun) do
-    case list do
-      [ head | tail ] -> if fun.(head) do 
-        keeploop(acc ++ [head], tail, fun) 
-      else keeploop(acc, tail, fun) end
-      [] -> acc
-    end
+    loop([], list, fun)
   end
 
   @doc """
@@ -27,14 +18,14 @@ defmodule Strain do
   """
   @spec discard(list :: list(any), fun :: (any -> boolean)) :: list(any)
   def discard(list, fun) do
-    discardloop([], list, fun)
+    loop([], list, &(!fun.(&1)))
   end
 
-  defp discardloop(acc, list, fun) do
+  defp loop(acc, list, fun) do
     case list do
-      [ head | tail ] -> unless fun.(head) do 
-        discardloop(acc ++ [head], tail, fun) 
-      else discardloop(acc, tail, fun) end
+      [ head | tail ] -> if fun.(head) do
+        loop(acc ++ [head], tail, fun)
+      else loop(acc, tail, fun) end
       [] -> acc
     end
   end
