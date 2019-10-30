@@ -17,14 +17,24 @@ defmodule SecretHandshake do
   """
   @spec commands(code :: integer) :: list(String.t())
   def commands(code) do
-    {handshake, _} = [ "wink", "double blink", "close your eyes", "jump" ] 
+    [ "wink", "double blink", "close your eyes", "jump" ]
     |> Enum.zip(0..3)
-    |> Enum.filter(fn {word, idx} -> bsr(code, idx) |> band(1) == 1 end)
+    |> Enum.filter(fn {_, idx} -> bsr(code, idx) |> band(1) == 1 end)
     |> Enum.unzip
-    if bsr(code, 4) == 1 do 
-      Enum.reverse(handshake) 
-    else 
-      handshake 
+    |> cond_reverse(fn {handshake, _} -> handshake end, fn _ -> bsr(code, 4) == 1 end)
+  end
+
+  @doc """
+  given an array, pass in two functions.  the first, getValue will be called on the first array to determine 
+  a) what to use as an argument into the predicate function
+  b) what to return (either reversed or straight)
+  the second argument will be the predicate function used to determine if the function should reverse the array or not
+  """
+  defp cond_reverse(arr, getValue, pred) do
+    if pred.(getValue.(arr)) do
+      Enum.reverse(getValue.(arr))
+    else
+      getValue.(arr)
     end
   end
 end
