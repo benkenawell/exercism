@@ -1,3 +1,5 @@
+use Bitwise, skip_operators: true
+
 defmodule SecretHandshake do
   @doc """
   Determine the actions of a secret handshake based on the binary
@@ -15,5 +17,14 @@ defmodule SecretHandshake do
   """
   @spec commands(code :: integer) :: list(String.t())
   def commands(code) do
+    {handshake, _} = [ "wink", "double blink", "close your eyes", "jump" ] 
+    |> Enum.zip(0..3)
+    |> Enum.filter(fn {word, idx} -> bsr(code, idx) |> band(1) == 1 end)
+    |> Enum.unzip
+    if bsr(code, 4) == 1 do 
+      Enum.reverse(handshake) 
+    else 
+      handshake 
+    end
   end
 end
