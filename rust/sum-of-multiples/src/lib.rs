@@ -1,11 +1,12 @@
 pub fn sum_of_multiples(limit: u32, factors: &[u32]) -> u32 {
-    (0..limit).fold(Vec::new(), |mut list_of_multiples, i| {
+    let mut sum = Vec::new();
+    for i in 0..limit {
         for factor in factors {
             let multiple = factor * i;
-            if multiple < limit && !list_of_multiples.contains(&multiple) {
-                list_of_multiples.push(multiple)
+            if multiple < limit && !sum.contains(&multiple) {
+                sum.push(multiple)
             }
         }
-        list_of_multiples
-    }).iter().fold(0, |sum, x| sum + x)
+    }
+    sum.iter().fold(0, |sum, x| sum + x)
 }
