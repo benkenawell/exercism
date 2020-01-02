@@ -6,25 +6,30 @@ fn no_multiples_within_limit() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn one_factor_has_multiples_within_limit() {
     assert_eq!(3, sum_of_multiples(4, &[3, 5]))
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn more_than_one_multiple_within_limit() {
     assert_eq!(9, sum_of_multiples(7, &[3]))
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn more_than_one_factor_with_multiples_within_limit() {
     assert_eq!(23, sum_of_multiples(10, &[3, 5]))
 }
 
 #[test]
-#[ignore]
+fn my_test() {
+    assert_eq!(78 , sum_of_multiples(20, &[3,5]))
+}
+
+#[test]
+// #[ignore]
 fn each_multiple_is_only_counted_once() {
     assert_eq!(2318, sum_of_multiples(100, &[3, 5]))
 }
