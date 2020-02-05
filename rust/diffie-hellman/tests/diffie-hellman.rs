@@ -1,6 +1,7 @@
 use diffie_hellman::*;
 
 #[test]
+// #[ignore]
 fn test_private_key_in_range_key() {
     let primes: Vec<u64> = vec![
         5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 773, 967, 3461, 6131,
@@ -13,7 +14,7 @@ fn test_private_key_in_range_key() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn test_public_key_correct() {
     let p: u64 = 23;
     let g: u64 = 5;
@@ -25,7 +26,7 @@ fn test_public_key_correct() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn test_secret_key_correct() {
     let p: u64 = 11;
 
