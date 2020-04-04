@@ -9,19 +9,21 @@ defmodule ProteinTranslation do
     |> Enum.chunk_every(3) # group each codon
     |> Enum.map(fn codon_list -> Enum.join(codon_list) |> of_codon end)
     |> Enum.split_with(fn {a, _} -> a == :ok end)
-    |> check_error
+    |> check_rna
   end
 
-  @spec check_error({list({:ok, String.t()}), list({:error, String.t()})}) :: list({atom, String.t()})
-  def check_error({acid_list, error_list}) do
-    if length(error_list) > 0 do
-      {:error, "invalid RNA"}
-    else
-      codon_list = acid_list
+  @doc """
+  Given a list of acids and a potential list of errors, return the appropriate response.
+  Any errors should return {:error, "invalid RNA"}
+  If there are no errors, return {:ok, the list of acids as a word list (up to a STOP codon)}
+  """
+  @spec check_rna({list({:ok, String.t()}), list({:error, String.t()})}) :: {atom, String.t()}
+  def check_rna({_, error_list}) when length(error_list) > 0 do {:error, "invalid RNA"} end
+  def check_rna({acid_list, _}) do
+      {:ok, acid_list
         |> Enum.take_while(fn {:ok, x} -> x != "STOP" end)
         |> Enum.map(fn {:ok, x} -> x end)
-      {:ok, codon_list}
-    end
+      }
   end
 
   @doc """
