@@ -4,15 +4,16 @@ module RNATranscription
 
 import Prelude
 import Data.String (split, joinWith, Pattern(..))
-import Data.Maybe
-import Data.Functor ((<#>))
+import Data.Maybe (Maybe(..))
 import Data.Array (foldM)
 
 toRNA :: String -> Maybe String
 toRNA rna = split (Pattern "") rna # foldM foldRNA ""
 
 foldRNA :: String -> String -> Maybe String
-foldRNA acc rna = (rotateRNA rna) >>= (\rotRNA -> Just ( acc <> rotRNA))
+-- foldRNA acc rna = (rotateRNA rna) >>= (\rotRNA -> Just ( acc <> rotRNA))
+-- foldRNA acc rna = rotateRNA rna # \rotRNA -> append acc <$> rotRNA
+foldRNA acc rna = append acc <$> rotateRNA rna
 
 rotateRNA :: String -> Maybe String
 rotateRNA "G" = Just "C"
